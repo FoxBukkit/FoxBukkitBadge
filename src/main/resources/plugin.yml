@@ -1,0 +1,20 @@
+name: FoxBukkitBadge
+main: com.foxelbox.foxbukkit.badge.FoxBukkitBadge
+version: 1.0.0
+commands:
+  bmanage:
+    description: Manages badges (add/remove/rename)
+    permission: foxbukkit.badge.manage
+    usage: /<command> add/rename/delete [shortname] ...
+  blist:
+    description: Lists badges
+    permission: foxbukkit.badge.list
+    usage: /<command>
+  badd:
+    description: Assigns badges to users
+    permission: foxbukkit.badge.assign
+    usage: /<command> <user> <shortname> <level|0>
+  badges:
+    description: Lists badges of user (or yourself)
+    permission: foxbukkit.badge.badges
+    usage: /<command> [target]
