@@ -1,5 +1,6 @@
 package com.foxelbox.foxbukkit.badge.database;
 
+import com.foxelbox.foxbukkit.badge.Badge;
 import org.bukkit.entity.Player;
 
 import java.sql.Connection;
@@ -10,13 +11,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
-public class BadgeManager {
+public class DatabaseBadgeManager {
     final DatabaseConnectionPool pool;
 
     final HashMap<Integer, DatabaseBadge> badgesById;
     final HashMap<String, DatabaseBadge> badgesByShortName;
 
-    public BadgeManager(DatabaseConnectionPool pool) {
+    public DatabaseBadgeManager(DatabaseConnectionPool pool) {
         this.pool = pool;
         this.badgesById = new HashMap<>();
         this.badgesByShortName = new HashMap<>();

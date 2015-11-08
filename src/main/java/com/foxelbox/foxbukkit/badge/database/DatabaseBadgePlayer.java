@@ -1,5 +1,7 @@
 package com.foxelbox.foxbukkit.badge.database;
 
+import com.foxelbox.foxbukkit.badge.Badge;
+
 public class DatabaseBadgePlayer implements Badge {
     DatabaseBadgePlayer(DatabaseBadge badge, int level) {
         this.badge = badge;

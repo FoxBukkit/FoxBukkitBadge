@@ -22,14 +22,14 @@ public class DatabaseBadge {
             "X"
     };
 
-    private final BadgeManager badgeManager;
+    private final DatabaseBadgeManager databaseBadgeManager;
 
-    DatabaseBadge(BadgeManager badgeManager) {
-        this.badgeManager = badgeManager;
+    DatabaseBadge(DatabaseBadgeManager databaseBadgeManager) {
+        this.databaseBadgeManager = databaseBadgeManager;
     }
 
-    DatabaseBadge(BadgeManager badgeManager, int id, String shortName, String name, String levelNames) {
-        this(badgeManager);
+    DatabaseBadge(DatabaseBadgeManager databaseBadgeManager, int id, String shortName, String name, String levelNames) {
+        this(databaseBadgeManager);
         this.id = id;
         this.shortName = shortName;
         this.name = name;
@@ -70,7 +70,7 @@ public class DatabaseBadge {
     }
 
     public void setShortName(String shortName) {
-        badgeManager.badgesByShortName.remove(this.shortName, this);
+        databaseBadgeManager.badgesByShortName.remove(this.shortName, this);
         this.shortName = shortName;
         save();
     }
@@ -81,7 +81,7 @@ public class DatabaseBadge {
         }
 
         try {
-            Connection connection = badgeManager.pool.getConnection();
+            Connection connection = databaseBadgeManager.pool.getConnection();
             PreparedStatement preparedStatement;
 
             preparedStatement = connection.prepareStatement("DELETE FROM fb_badges WHERE badgeid = ?");
@@ -89,8 +89,8 @@ public class DatabaseBadge {
             preparedStatement.execute();
             preparedStatement.close();
 
-            badgeManager.badgesById.remove(id, this);
-            badgeManager.badgesByShortName.remove(shortName, this);
+            databaseBadgeManager.badgesById.remove(id, this);
+            databaseBadgeManager.badgesByShortName.remove(shortName, this);
 
             preparedStatement = connection.prepareStatement("DELETE FROM fb_badgexuser WHERE badgeid = ?");
             preparedStatement.setInt(1, id);
@@ -105,7 +105,7 @@ public class DatabaseBadge {
 
     private void save() {
         try {
-            Connection connection = badgeManager.pool.getConnection();
+            Connection connection = databaseBadgeManager.pool.getConnection();
             PreparedStatement preparedStatement;
             if (id >= 0) {
                 preparedStatement = connection.prepareStatement("UPDATE fb_badges SET shortname = ?, name = ?, levelNames = ? WHERE badgeid = ?");
@@ -132,8 +132,8 @@ public class DatabaseBadge {
                 ResultSet keys = preparedStatement.getGeneratedKeys();
                 keys.next();
                 id = keys.getInt(1);
-                badgeManager.badgesById.put(id, this);
-                badgeManager.badgesByShortName.put(shortName, this);
+                databaseBadgeManager.badgesById.put(id, this);
+                databaseBadgeManager.badgesByShortName.put(shortName, this);
             }
             preparedStatement.close();
             connection.close();

@@ -1,4 +1,4 @@
-package com.foxelbox.foxbukkit.badge.database;
+package com.foxelbox.foxbukkit.badge;
 
 public interface Badge {
     int getId();

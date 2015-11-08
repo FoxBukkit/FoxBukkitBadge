@@ -5,14 +5,14 @@ import com.foxelbox.foxbukkit.badge.commands.BAddCommand;
 import com.foxelbox.foxbukkit.badge.commands.BListCommand;
 import com.foxelbox.foxbukkit.badge.commands.BManageCommand;
 import com.foxelbox.foxbukkit.badge.commands.BadgeCommand;
-import com.foxelbox.foxbukkit.badge.database.BadgeManager;
+import com.foxelbox.foxbukkit.badge.database.DatabaseBadgeManager;
 import com.foxelbox.foxbukkit.badge.database.DatabaseConnectionPool;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class FoxBukkitBadge extends JavaPlugin {
     public Configuration configuration;
     public DatabaseConnectionPool pool;
-    public BadgeManager badgeManager;
+    public DatabaseBadgeManager databaseBadgeManager;
 
     @Override
     public void onEnable() {
@@ -20,7 +20,7 @@ public class FoxBukkitBadge extends JavaPlugin {
 
         configuration = new Configuration(getDataFolder());
         pool = new DatabaseConnectionPool(this);
-        badgeManager = new BadgeManager(pool);
+        databaseBadgeManager = new DatabaseBadgeManager(pool);
 
         getServer().getPluginCommand("badd").setExecutor(new BAddCommand(this));
         getServer().getPluginCommand("blist").setExecutor(new BListCommand(this));
