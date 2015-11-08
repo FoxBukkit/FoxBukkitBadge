@@ -9,11 +9,6 @@ public class DatabaseBadgePlayer implements Badge {
     }
 
     @Override
-    public int getId() {
-        return badge.getId();
-    }
-
-    @Override
     public String getName() {
         return badge.getName();
     }
@@ -26,6 +21,11 @@ public class DatabaseBadgePlayer implements Badge {
     @Override
     public String getShortName() {
         return badge.getShortName();
+    }
+
+    @Override
+    public String getDescription() {
+        return badge.getDescription();
     }
 
     public final DatabaseBadge badge;

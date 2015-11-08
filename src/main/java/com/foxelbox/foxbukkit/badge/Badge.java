@@ -1,8 +1,8 @@
 package com.foxelbox.foxbukkit.badge;
 
 public interface Badge {
-    int getId();
     String getName();
+    String getDescription();
     String getLevelName();
     String getShortName();
 }
