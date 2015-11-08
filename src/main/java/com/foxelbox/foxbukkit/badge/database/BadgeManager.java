@@ -13,8 +13,8 @@ import java.util.HashMap;
 public class BadgeManager {
     final DatabaseConnectionPool pool;
 
-    final HashMap<Integer, Badge> badgesById;
-    final HashMap<String, Badge> badgesByShortName;
+    final HashMap<Integer, DatabaseBadge> badgesById;
+    final HashMap<String, DatabaseBadge> badgesByShortName;
 
     public BadgeManager(DatabaseConnectionPool pool) {
         this.pool = pool;
@@ -22,11 +22,12 @@ public class BadgeManager {
         this.badgesByShortName = new HashMap<>();
         try {
             Connection connection = pool.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT id, shortname, name FROM fb_badges");
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT id, shortname, name, levelNames FROM fb_badges");
             ResultSet resultSet = preparedStatement.executeQuery();
             while(resultSet.next()) {
-                badgesById.put(resultSet.getInt(1), new Badge(this, resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3)));
-                badgesByShortName.put(resultSet.getString(2), new Badge(this, resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3)));
+                DatabaseBadge badge = new DatabaseBadge(this, resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4));
+                badgesById.put(resultSet.getInt(1), badge);
+                badgesByShortName.put(resultSet.getString(2), badge);
             }
             preparedStatement.close();
             connection.close();
@@ -35,31 +36,31 @@ public class BadgeManager {
         }
     }
 
-    public Collection<Badge> getAllBadges() {
+    public Collection<DatabaseBadge> getAllBadges() {
         return badgesById.values();
     }
 
-    public Badge getBadgeById(int id) {
+    public DatabaseBadge getBadgeById(int id) {
         return badgesById.get(id);
     }
 
-    public Badge getBadgeByShortName(String shortName) {
+    public DatabaseBadge getBadgeByShortName(String shortName) {
         return badgesByShortName.get(shortName);
     }
 
-    public Badge newBadge() {
-        return new Badge(this);
+    public DatabaseBadge newBadge() {
+        return new DatabaseBadge(this);
     }
 
-    public Collection<BadgePlayer> getBadgesForPlayer(Player player) {
-        ArrayList<BadgePlayer> ret = new ArrayList<>();
+    public Collection<DatabaseBadgePlayer> getBadgesForPlayer(Player player) {
+        ArrayList<DatabaseBadgePlayer> ret = new ArrayList<>();
         try {
             Connection connection = pool.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT id, level FROM fb_badgexuser WHERE user = ?");
             preparedStatement.setString(1, player.getUniqueId().toString());
             ResultSet resultSet = preparedStatement.executeQuery();
             while(resultSet.next()) {
-                ret.add(new BadgePlayer(getBadgeById(resultSet.getInt(1)), resultSet.getInt(2)));
+                ret.add(new DatabaseBadgePlayer(getBadgeById(resultSet.getInt(1)), resultSet.getInt(2)));
             }
             preparedStatement.close();
             connection.close();
@@ -69,7 +70,7 @@ public class BadgeManager {
         return ret;
     }
 
-    public void setBadgeForPlayer(Player player, Badge badge, int level) {
+    public void setBadgeForPlayer(Player player, DatabaseBadge badge, int level) {
         try {
             Connection connection = pool.getConnection();
             PreparedStatement preparedStatement;
