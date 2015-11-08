@@ -9,6 +9,16 @@ public class DatabaseBadgePlayer implements Badge {
     }
 
     @Override
+    public int getLevel() {
+        return level;
+    }
+
+    @Override
+    public int getMaxLevel() {
+        return badge.getMaxLevel();
+    }
+
+    @Override
     public String getName() {
         return badge.getName();
     }

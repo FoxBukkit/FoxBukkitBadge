@@ -57,6 +57,7 @@ public class DatabaseConnectionPool {
                 "  `shortname` varbinary(32) NOT NULL,\n" +
                 "  `name` varbinary(255) NOT NULL,\n" +
                 "  `description` blob NOT NULL,\n" +
+                "  `maxLevel` int(11) NOT NULL,\n" +
                 "  `levelNames` blob NOT NULL,\n" +
                 "  UNIQUE KEY `shortname` (`shortname`)\n" +
                 "  PRIMARY KEY (`badgeid`)\n" +

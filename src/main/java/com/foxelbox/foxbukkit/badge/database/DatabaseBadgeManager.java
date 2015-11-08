@@ -24,10 +24,10 @@ public class DatabaseBadgeManager implements BadgeManager {
         this.badgesByShortName = new HashMap<>();
         try {
             Connection connection = pool.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT id, shortname, name, description, levelNames FROM fb_badges");
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT id, shortname, name, description, maxLevel, levelNames FROM fb_badges");
             ResultSet resultSet = preparedStatement.executeQuery();
             while(resultSet.next()) {
-                DatabaseBadge badge = new DatabaseBadge(this, resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getString(5));
+                DatabaseBadge badge = new DatabaseBadge(this, resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getInt(5), resultSet.getString(6));
                 badgesById.put(resultSet.getInt(1), badge);
                 badgesByShortName.put(resultSet.getString(2), badge);
             }

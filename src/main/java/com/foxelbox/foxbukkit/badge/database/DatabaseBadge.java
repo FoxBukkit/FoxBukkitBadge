@@ -7,6 +7,7 @@ public class DatabaseBadge {
     private String shortName;
     private String name;
     private String description;
+    private int maxLevel = 1;
 
     private String[] levelNames = null;
 
@@ -29,12 +30,13 @@ public class DatabaseBadge {
         this.databaseBadgeManager = databaseBadgeManager;
     }
 
-    DatabaseBadge(DatabaseBadgeManager databaseBadgeManager, int id, String shortName, String name, String description, String levelNames) {
+    DatabaseBadge(DatabaseBadgeManager databaseBadgeManager, int id, String shortName, String name, String description, int maxLevel, String levelNames) {
         this(databaseBadgeManager);
         this.id = id;
         this.shortName = shortName;
         this.name = name;
         this.description = description;
+        this.maxLevel = maxLevel;
         if(levelNames != null && !levelNames.isEmpty()) {
             this.levelNames = levelNames.split(",");
         }
@@ -46,6 +48,15 @@ public class DatabaseBadge {
 
     public String getName() {
         return name;
+    }
+
+    public int getMaxLevel() {
+        return maxLevel;
+    }
+
+    public void setMaxLevel(int maxLevel) {
+        this.maxLevel = maxLevel;
+        save();
     }
 
     public void setName(String name) {
@@ -120,27 +131,29 @@ public class DatabaseBadge {
             Connection connection = databaseBadgeManager.pool.getConnection();
             PreparedStatement preparedStatement;
             if (id >= 0) {
-                preparedStatement = connection.prepareStatement("UPDATE fb_badges SET shortname = ?, name = ?, description = ?, levelNames = ? WHERE badgeid = ?");
+                preparedStatement = connection.prepareStatement("UPDATE fb_badges SET shortname = ?, name = ?, description = ?, maxLevel = ?, levelNames = ? WHERE badgeid = ?");
                 preparedStatement.setString(1, shortName);
                 preparedStatement.setString(2, name);
                 preparedStatement.setString(3, description);
+                preparedStatement.setInt(4, maxLevel);
                 if(levelNames != null) {
-                    preparedStatement.setString(4, String.join(",", levelNames));
+                    preparedStatement.setString(5, String.join(",", levelNames));
                 } else {
-                    preparedStatement.setString(4, "");
+                    preparedStatement.setString(5, "");
                 }
-                preparedStatement.setInt(5, id);
+                preparedStatement.setInt(6, id);
 
                 preparedStatement.execute();
             } else {
-                preparedStatement = connection.prepareStatement("INSERT INTO fb_badges (shortname, name, description, levelNames) VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+                preparedStatement = connection.prepareStatement("INSERT INTO fb_badges (shortname, name, description, maxLevel, levelNames) VALUES (?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
                 preparedStatement.setString(1, shortName);
                 preparedStatement.setString(2, name);
                 preparedStatement.setString(3, description);
+                preparedStatement.setInt(4, maxLevel);
                 if(levelNames != null) {
-                    preparedStatement.setString(4, String.join(",", levelNames));
+                    preparedStatement.setString(5, String.join(",", levelNames));
                 } else {
-                    preparedStatement.setString(4, "");
+                    preparedStatement.setString(5, "");
                 }
                 preparedStatement.executeUpdate();
 
