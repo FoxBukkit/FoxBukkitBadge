@@ -1,6 +1,7 @@
 package com.foxelbox.foxbukkit.badge.database;
 
 import com.foxelbox.foxbukkit.badge.Badge;
+import com.foxelbox.foxbukkit.badge.BadgeManager;
 import org.bukkit.entity.Player;
 
 import java.sql.Connection;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
-public class DatabaseBadgeManager {
+public class DatabaseBadgeManager implements BadgeManager {
     final DatabaseConnectionPool pool;
 
     final HashMap<Integer, DatabaseBadge> badgesById;
@@ -71,7 +72,7 @@ public class DatabaseBadgeManager {
         return ret;
     }
 
-    public void setBadgeForPlayer(Player player, Badge badge, int level) {
+    public void setBadgeForPlayer(Player player, DatabaseBadge badge, int level) {
         try {
             Connection connection = pool.getConnection();
             PreparedStatement preparedStatement;

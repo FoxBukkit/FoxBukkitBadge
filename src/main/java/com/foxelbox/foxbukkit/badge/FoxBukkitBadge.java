@@ -7,12 +7,27 @@ import com.foxelbox.foxbukkit.badge.commands.BManageCommand;
 import com.foxelbox.foxbukkit.badge.commands.BadgeCommand;
 import com.foxelbox.foxbukkit.badge.database.DatabaseBadgeManager;
 import com.foxelbox.foxbukkit.badge.database.DatabaseConnectionPool;
+import com.sun.xml.internal.bind.annotation.OverrideAnnotationOf;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class FoxBukkitBadge extends JavaPlugin {
     public Configuration configuration;
     public DatabaseConnectionPool pool;
     public DatabaseBadgeManager databaseBadgeManager;
+
+    public MergingBadgeManager globalBadgeManager;
+
+    public BadgeManager getGlobalBadgeManager() {
+        return globalBadgeManager;
+    }
+
+    public void addBadgeManager(BadgeManager badgeManager) {
+        globalBadgeManager.badgeManagers.add(badgeManager);
+    }
+
+    public void removeBadgeManager(BadgeManager badgeManager) {
+        globalBadgeManager.badgeManagers.remove(badgeManager);
+    }
 
     @Override
     public void onEnable() {
@@ -26,5 +41,15 @@ public class FoxBukkitBadge extends JavaPlugin {
         getServer().getPluginCommand("blist").setExecutor(new BListCommand(this));
         getServer().getPluginCommand("bmanage").setExecutor(new BManageCommand(this));
         getServer().getPluginCommand("badge").setExecutor(new BadgeCommand(this));
+
+        globalBadgeManager = new MergingBadgeManager();
+        addBadgeManager(databaseBadgeManager);
+    }
+
+    @Override
+    public void onDisable() {
+        super.onDisable();
+
+        globalBadgeManager.badgeManagers.clear();
     }
 }
