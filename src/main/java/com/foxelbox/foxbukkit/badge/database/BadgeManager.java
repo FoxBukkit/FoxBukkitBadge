@@ -52,8 +52,8 @@ public class BadgeManager {
         return new DatabaseBadge(this);
     }
 
-    public Collection<DatabaseBadgePlayer> getBadgesForPlayer(Player player) {
-        ArrayList<DatabaseBadgePlayer> ret = new ArrayList<>();
+    public Collection<Badge> getBadgesForPlayer(Player player) {
+        ArrayList<Badge> ret = new ArrayList<>();
         try {
             Connection connection = pool.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT id, level FROM fb_badgexuser WHERE user = ?");
@@ -70,7 +70,7 @@ public class BadgeManager {
         return ret;
     }
 
-    public void setBadgeForPlayer(Player player, DatabaseBadge badge, int level) {
+    public void setBadgeForPlayer(Player player, Badge badge, int level) {
         try {
             Connection connection = pool.getConnection();
             PreparedStatement preparedStatement;
