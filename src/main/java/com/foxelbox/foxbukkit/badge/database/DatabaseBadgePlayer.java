@@ -3,6 +3,9 @@ package com.foxelbox.foxbukkit.badge.database;
 import com.foxelbox.foxbukkit.badge.Badge;
 
 public class DatabaseBadgePlayer implements Badge {
+    private final DatabaseBadge badge;
+    private final int level;
+
     DatabaseBadgePlayer(DatabaseBadge badge, int level) {
         this.badge = badge;
         this.level = level;
@@ -37,7 +40,4 @@ public class DatabaseBadgePlayer implements Badge {
     public String getDescription() {
         return badge.getDescription();
     }
-
-    public final DatabaseBadge badge;
-    public final int level;
 }
