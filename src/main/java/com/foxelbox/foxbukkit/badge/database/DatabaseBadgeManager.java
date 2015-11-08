@@ -72,6 +72,10 @@ public class DatabaseBadgeManager implements BadgeManager {
         return ret;
     }
 
+    public void setBadgeForPlayer(Player player, DatabaseBadgePlayer badge) {
+        setBadgeForPlayer(player, badge.badge, badge.level);
+    }
+
     public void setBadgeForPlayer(Player player, DatabaseBadge badge, int level) {
         try {
             Connection connection = pool.getConnection();
