@@ -18,6 +18,10 @@ public class FoxBukkitBadge extends JavaPlugin {
 
     public MergingBadgeManager globalBadgeManager;
 
+    /**
+     * Badge managers
+     */
+
     public BadgeManager getGlobalBadgeManager() {
         return globalBadgeManager;
     }
@@ -30,9 +34,9 @@ public class FoxBukkitBadge extends JavaPlugin {
         globalBadgeManager.badgeManagers.remove(badgeManager);
     }
 
-    private String prefixMessage(String message) {
-        return "\u00a7d[FBB]\u00a7f " + message;
-    }
+    /**
+     * Messaging
+     */
 
     public void sendMessageTo(CommandSender ply, String message) {
         ply.sendMessage(prefixMessage(message));
@@ -40,6 +44,10 @@ public class FoxBukkitBadge extends JavaPlugin {
 
     public void broadcastMessage(String message) {
         getServer().broadcastMessage(prefixMessage(message));
+    }
+
+    private String prefixMessage(String message) {
+        return "\u00a7d[FBB]\u00a7f " + message;
     }
 
     @Override
