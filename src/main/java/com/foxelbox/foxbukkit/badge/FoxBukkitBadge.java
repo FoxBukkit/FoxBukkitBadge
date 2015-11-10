@@ -8,6 +8,9 @@ import com.foxelbox.foxbukkit.badge.commands.BadgesCommand;
 import com.foxelbox.foxbukkit.badge.database.DatabaseBadgeManager;
 import com.foxelbox.foxbukkit.badge.database.DatabaseConnectionPool;
 import org.bukkit.command.CommandSender;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class FoxBukkitBadge extends JavaPlugin {
@@ -61,6 +64,25 @@ public class FoxBukkitBadge extends JavaPlugin {
         getServer().getPluginCommand("binfo").setExecutor(new BInfoCommand(this));
         getServer().getPluginCommand("bmanage").setExecutor(new BManageCommand(this));
         getServer().getPluginCommand("badges").setExecutor(new BadgesCommand(this));
+
+        getServer().getPluginManager().registerEvents(new Listener() {
+            @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+            public void onBadgeChange(BadgeChangedEvent event) {
+                if(event.getOldBadge() == null || event.getOldBadge().getLevel() == 0) {
+                    // Badge awarded
+
+                } else if(event.getNewBadge() == null || event.getNewBadge().getLevel() == 0) {
+                    // Badge lost
+
+                } else if(event.getNewBadge().getLevel() > event.getOldBadge().getLevel()) {
+                    // Badge upgraded
+
+                } else {
+                    // Badge downgraded
+
+                }
+            }
+        }, this);
 
         globalBadgeManager = new MergingBadgeManager();
         addBadgeManager(databaseBadgeManager);
