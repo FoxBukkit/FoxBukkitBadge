@@ -35,7 +35,7 @@ public class BInfoCommand implements CommandExecutor {
             for(BadgeDescriptor badgeDescriptor : plugin.getGlobalBadgeManager().getBadges()) {
                 badges.add(((badgeDescriptor instanceof DatabaseBadge) ? "\u00a77@\u00a7f" : "") + badgeDescriptor.getId());
             }
-            plugin.sendMessageTo(commandSender, String.join(", ", badges));
+            plugin.sendMessageTo(commandSender, "Badges:" + String.join(", ", badges));
         }
         return true;
     }
