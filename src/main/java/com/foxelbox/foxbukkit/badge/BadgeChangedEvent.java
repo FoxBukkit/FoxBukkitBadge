@@ -1,18 +1,17 @@
 package com.foxelbox.foxbukkit.badge;
 
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
+import org.bukkit.event.player.PlayerEvent;
 
-public class BadgeChangedEvent extends Event {
+public class BadgeChangedEvent extends PlayerEvent {
     private static final HandlerList handlers = new HandlerList();
 
-    private final Player player;
-    private final Badge oldBadge;
-    private final Badge newBadge;
+    protected Badge oldBadge;
+    protected Badge newBadge;
 
     public BadgeChangedEvent(Player player, Badge oldBadge, Badge newBadge) {
-        this.player = player;
+        super(player);
         this.oldBadge = oldBadge;
         this.newBadge = newBadge;
     }
@@ -27,10 +26,6 @@ public class BadgeChangedEvent extends Event {
 
     public Badge getOldBadge() {
         return oldBadge;
-    }
-
-    public Player getPlayer() {
-        return player;
     }
 
     @Override
