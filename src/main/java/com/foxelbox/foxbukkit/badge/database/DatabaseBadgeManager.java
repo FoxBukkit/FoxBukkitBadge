@@ -1,6 +1,7 @@
 package com.foxelbox.foxbukkit.badge.database;
 
 import com.foxelbox.foxbukkit.badge.Badge;
+import com.foxelbox.foxbukkit.badge.BadgeDescriptor;
 import com.foxelbox.foxbukkit.badge.BadgeManager;
 import org.bukkit.entity.Player;
 
@@ -27,19 +28,16 @@ public class DatabaseBadgeManager implements BadgeManager {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT id, shortname, name, description, maxLevel, levelNames FROM fb_badges");
             ResultSet resultSet = preparedStatement.executeQuery();
             while(resultSet.next()) {
-                DatabaseBadge badge = new DatabaseBadge(this, resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3), resultSet.getString(4), resultSet.getInt(5), resultSet.getString(6));
+                String shortName = resultSet.getString(2).toLowerCase();
+                DatabaseBadge badge = new DatabaseBadge(this, resultSet.getInt(1), shortName, resultSet.getString(3), resultSet.getString(4), resultSet.getInt(5), resultSet.getString(6));
                 badgesById.put(resultSet.getInt(1), badge);
-                badgesByShortName.put(resultSet.getString(2), badge);
+                badgesByShortName.put(shortName, badge);
             }
             preparedStatement.close();
             connection.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public Collection<DatabaseBadge> getAllBadges() {
-        return badgesById.values();
     }
 
     public DatabaseBadge getBadgeById(int id) {
@@ -87,12 +85,22 @@ public class DatabaseBadgeManager implements BadgeManager {
                 preparedStatement = connection.prepareStatement("DELETE FROM fb_badgexuser WHERE user = ? AND badgeid = ?");
             }
             preparedStatement.setString(1, player.getUniqueId().toString());
-            preparedStatement.setInt(2, badge.getId());
+            preparedStatement.setInt(2, badge.getDatabaseId());
             preparedStatement.execute();
             preparedStatement.close();
             connection.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public Collection<BadgeDescriptor> getBadges() {
+        return (Collection<BadgeDescriptor>)(Collection)badgesById.values();
+    }
+
+    @Override
+    public BadgeDescriptor getBadge(String shortName) {
+        return badgesByShortName.get(shortName.toLowerCase());
     }
 }

@@ -5,5 +5,7 @@ import org.bukkit.entity.Player;
 import java.util.Collection;
 
 public interface BadgeManager {
-    public Collection<Badge> getBadgesForPlayer(Player player);
+    Collection<Badge> getBadgesForPlayer(Player player);
+    Collection<BadgeDescriptor> getBadges();
+    BadgeDescriptor getBadge(String shortName);
 }
