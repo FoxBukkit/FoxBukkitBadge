@@ -8,7 +8,6 @@ import com.foxelbox.foxbukkit.badge.commands.BadgesCommand;
 import com.foxelbox.foxbukkit.badge.database.DatabaseBadgeManager;
 import com.foxelbox.foxbukkit.badge.database.DatabaseConnectionPool;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class FoxBukkitBadge extends JavaPlugin {

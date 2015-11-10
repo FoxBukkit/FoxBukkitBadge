@@ -3,7 +3,6 @@ package com.foxelbox.foxbukkit.badge.commands;
 import com.foxelbox.foxbukkit.badge.BadgeDescriptor;
 import com.foxelbox.foxbukkit.badge.FoxBukkitBadge;
 import com.foxelbox.foxbukkit.badge.database.DatabaseBadge;
-import com.google.common.base.Strings;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

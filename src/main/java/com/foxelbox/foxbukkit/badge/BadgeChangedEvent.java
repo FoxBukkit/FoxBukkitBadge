@@ -2,7 +2,6 @@ package com.foxelbox.foxbukkit.badge;
 
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
-import org.bukkit.event.player.PlayerTeleportEvent;
 
 public class BadgeChangedEvent extends Event {
     private static final HandlerList handlers = new HandlerList();
