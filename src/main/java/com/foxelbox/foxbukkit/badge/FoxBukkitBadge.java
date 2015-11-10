@@ -4,10 +4,9 @@ import com.foxelbox.dependencies.config.Configuration;
 import com.foxelbox.foxbukkit.badge.commands.BAddCommand;
 import com.foxelbox.foxbukkit.badge.commands.BListCommand;
 import com.foxelbox.foxbukkit.badge.commands.BManageCommand;
-import com.foxelbox.foxbukkit.badge.commands.BadgeCommand;
+import com.foxelbox.foxbukkit.badge.commands.BadgesCommand;
 import com.foxelbox.foxbukkit.badge.database.DatabaseBadgeManager;
 import com.foxelbox.foxbukkit.badge.database.DatabaseConnectionPool;
-import com.sun.xml.internal.bind.annotation.OverrideAnnotationOf;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class FoxBukkitBadge extends JavaPlugin {
@@ -40,7 +39,7 @@ public class FoxBukkitBadge extends JavaPlugin {
         getServer().getPluginCommand("badd").setExecutor(new BAddCommand(this));
         getServer().getPluginCommand("blist").setExecutor(new BListCommand(this));
         getServer().getPluginCommand("bmanage").setExecutor(new BManageCommand(this));
-        getServer().getPluginCommand("badge").setExecutor(new BadgeCommand(this));
+        getServer().getPluginCommand("badges").setExecutor(new BadgesCommand(this));
 
         globalBadgeManager = new MergingBadgeManager();
         addBadgeManager(databaseBadgeManager);
