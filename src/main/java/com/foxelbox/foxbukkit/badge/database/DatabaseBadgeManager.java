@@ -104,7 +104,6 @@ public class DatabaseBadgeManager implements BadgeManager {
     public void setBadgeForPlayer(Player player, DatabaseBadgeDescriptor badge, int level) {
         final Badge oldBadge = getBadgeForPlayer(player, badge);
 
-
         try {
             Connection connection = pool.getConnection();
             PreparedStatement preparedStatement;
