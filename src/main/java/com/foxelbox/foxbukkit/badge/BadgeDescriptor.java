@@ -1,12 +1,34 @@
 package com.foxelbox.foxbukkit.badge;
 
-public interface BadgeDescriptor {
-    String getName();
-    String getDescription();
+public abstract class BadgeDescriptor {
+    public abstract String getName();
+    public abstract String getDescription();
 
-    String getLevelName(int level);
-    String[] getLevelNames();
-    int getMaxLevel();
+    private static final String[] ROMAN_NUMERALS_BASE = {
+        "I",
+        "II",
+        "III",
+        "IV",
+        "V",
+        "VI",
+        "VII",
+        "VIII",
+        "IX",
+        "X"
+    };
 
-    String getId();
+    public String getLevelName(int level) {
+        if(ROMAN_NUMERALS_BASE.length > level) {
+            return ROMAN_NUMERALS_BASE[level];
+        }
+        return String.valueOf(level);
+    }
+
+    public String[] getLevelNames() {
+        return ROMAN_NUMERALS_BASE;
+    }
+
+    public abstract int getMaxLevel();
+
+    public abstract String getId();
 }

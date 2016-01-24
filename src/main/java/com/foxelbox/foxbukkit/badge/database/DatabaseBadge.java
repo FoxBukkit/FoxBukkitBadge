@@ -4,7 +4,7 @@ import com.foxelbox.foxbukkit.badge.BadgeDescriptor;
 
 import java.sql.*;
 
-public class DatabaseBadge implements BadgeDescriptor {
+public class DatabaseBadge extends BadgeDescriptor {
     private int id = -1;
     private String shortName;
     private String name;
@@ -12,19 +12,6 @@ public class DatabaseBadge implements BadgeDescriptor {
     private int maxLevel = 1;
 
     private String[] levelNames = null;
-
-    private static final String[] ROMAN_NUMERALS_BASE = {
-            "I",
-            "II",
-            "III",
-            "IV",
-            "V",
-            "VI",
-            "VII",
-            "VIII",
-            "IX",
-            "X"
-    };
 
     private final DatabaseBadgeManager databaseBadgeManager;
 
@@ -50,7 +37,7 @@ public class DatabaseBadge implements BadgeDescriptor {
 
     @Override
     public String[] getLevelNames() {
-        return (levelNames != null) ? levelNames : ROMAN_NUMERALS_BASE;
+        return (levelNames != null) ? levelNames : super.getLevelNames();
     }
 
     @Override
@@ -78,10 +65,7 @@ public class DatabaseBadge implements BadgeDescriptor {
         if(levelNames.length > level) {
             return levelNames[level];
         }
-        if(ROMAN_NUMERALS_BASE.length > level) {
-            return ROMAN_NUMERALS_BASE[level];
-        }
-        return String.valueOf(level);
+        return super.getLevelName(level);
     }
 
     public void setLevelNames(String[] levelNames) {
