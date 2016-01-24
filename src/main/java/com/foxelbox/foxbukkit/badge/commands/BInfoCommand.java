@@ -2,7 +2,7 @@ package com.foxelbox.foxbukkit.badge.commands;
 
 import com.foxelbox.foxbukkit.badge.BadgeDescriptor;
 import com.foxelbox.foxbukkit.badge.FoxBukkitBadge;
-import com.foxelbox.foxbukkit.badge.database.DatabaseBadge;
+import com.foxelbox.foxbukkit.badge.database.DatabaseBadgeDescriptor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -32,7 +32,7 @@ public class BInfoCommand implements CommandExecutor {
             // List
             ArrayList<String> badges = new ArrayList<>();
             for(BadgeDescriptor badgeDescriptor : plugin.getGlobalBadgeManager().getBadges()) {
-                badges.add(((badgeDescriptor instanceof DatabaseBadge) ? "\u00a77@\u00a7f" : "") + badgeDescriptor.getId());
+                badges.add(((badgeDescriptor instanceof DatabaseBadgeDescriptor) ? "\u00a77@\u00a7f" : "") + badgeDescriptor.getId());
             }
             plugin.sendMessageTo(commandSender, "Badges:" + String.join(", ", badges));
         }

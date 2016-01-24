@@ -16,8 +16,8 @@ import java.util.HashMap;
 public class DatabaseBadgeManager implements BadgeManager {
     final DatabaseConnectionPool pool;
 
-    final HashMap<Integer, DatabaseBadge> badgesById;
-    final HashMap<String, DatabaseBadge> badgesByShortName;
+    final HashMap<Integer, DatabaseBadgeDescriptor> badgesById;
+    final HashMap<String, DatabaseBadgeDescriptor> badgesByShortName;
 
     public DatabaseBadgeManager(DatabaseConnectionPool pool) {
         this.pool = pool;
@@ -29,7 +29,7 @@ public class DatabaseBadgeManager implements BadgeManager {
             ResultSet resultSet = preparedStatement.executeQuery();
             while(resultSet.next()) {
                 String shortName = resultSet.getString(2).toLowerCase();
-                DatabaseBadge badge = new DatabaseBadge(this, resultSet.getInt(1), shortName, resultSet.getString(3), resultSet.getString(4), resultSet.getInt(5), resultSet.getString(6));
+                DatabaseBadgeDescriptor badge = new DatabaseBadgeDescriptor(this, resultSet.getInt(1), shortName, resultSet.getString(3), resultSet.getString(4), resultSet.getInt(5), resultSet.getString(6));
                 badgesById.put(resultSet.getInt(1), badge);
                 badgesByShortName.put(shortName, badge);
             }
@@ -40,16 +40,16 @@ public class DatabaseBadgeManager implements BadgeManager {
         }
     }
 
-    public DatabaseBadge getBadgeById(int id) {
+    public DatabaseBadgeDescriptor getBadgeById(int id) {
         return badgesById.get(id);
     }
 
-    public DatabaseBadge getBadgeByShortName(String shortName) {
+    public DatabaseBadgeDescriptor getBadgeByShortName(String shortName) {
         return badgesByShortName.get(shortName);
     }
 
-    public DatabaseBadge newBadge() {
-        return new DatabaseBadge(this);
+    public DatabaseBadgeDescriptor newBadge() {
+        return new DatabaseBadgeDescriptor(this);
     }
 
     public Collection<Badge> getBadgesForPlayer(Player player) {
@@ -60,7 +60,7 @@ public class DatabaseBadgeManager implements BadgeManager {
             preparedStatement.setString(1, player.getUniqueId().toString());
             ResultSet resultSet = preparedStatement.executeQuery();
             while(resultSet.next()) {
-                ret.add(new DatabaseBadgePlayer(getBadgeById(resultSet.getInt(1)), resultSet.getInt(2)));
+                ret.add(new DatabaseBadge(getBadgeById(resultSet.getInt(1)), resultSet.getInt(2)));
             }
             preparedStatement.close();
             connection.close();
@@ -70,11 +70,11 @@ public class DatabaseBadgeManager implements BadgeManager {
         return ret;
     }
 
-    public void setBadgeForPlayer(Player player, DatabaseBadgePlayer badge) {
+    public void setBadgeForPlayer(Player player, DatabaseBadge badge) {
         setBadgeForPlayer(player, badge.badge, badge.level);
     }
 
-    public void setBadgeForPlayer(Player player, DatabaseBadge badge, int level) {
+    public void setBadgeForPlayer(Player player, DatabaseBadgeDescriptor badge, int level) {
         try {
             Connection connection = pool.getConnection();
             PreparedStatement preparedStatement;
