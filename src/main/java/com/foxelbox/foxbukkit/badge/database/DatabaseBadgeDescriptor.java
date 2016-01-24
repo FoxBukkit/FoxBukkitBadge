@@ -103,7 +103,7 @@ public class DatabaseBadgeDescriptor extends BadgeDescriptor {
             Connection connection = databaseBadgeManager.pool.getConnection();
             PreparedStatement preparedStatement;
 
-            preparedStatement = connection.prepareStatement("DELETE FROM fb_badges WHERE badgeid = ?");
+            preparedStatement = connection.prepareStatement("DELETE FROM fb_badges WHERE id = ?");
             preparedStatement.setInt(1, id);
             preparedStatement.execute();
             preparedStatement.close();
@@ -127,7 +127,7 @@ public class DatabaseBadgeDescriptor extends BadgeDescriptor {
             Connection connection = databaseBadgeManager.pool.getConnection();
             PreparedStatement preparedStatement;
             if (id >= 0) {
-                preparedStatement = connection.prepareStatement("UPDATE fb_badges SET shortname = ?, name = ?, description = ?, maxLevel = ?, levelNames = ? WHERE badgeid = ?");
+                preparedStatement = connection.prepareStatement("UPDATE fb_badges SET shortname = ?, name = ?, description = ?, maxLevel = ?, levelNames = ? WHERE id = ?");
                 preparedStatement.setString(1, shortName);
                 preparedStatement.setString(2, name);
                 preparedStatement.setString(3, description);
